@@ -2,25 +2,28 @@ const express = require('express');
 const sqlite3 = require('sqlite3');
 const bodyParser = require('body-parser');
 const Sequelize = require('sequelize');
+const tasks = require('./controllers/tasks');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const sequelize = new Sequelize('proyecto-backend', null, null,{
+/* const sequelize = new Sequelize('proyecto-backend', null, null,{
     dialect: 'sqlite',
     storage: './proyecto-backend',
-});
+}); */ //--------------------> esto ya no seria si utilizamos otro metodo para tener mejor estructurado el backe
 
 //let db = new sqlite3.Database('proyecto-backend');--------------------> crear una nueva table de base de datos sqlite3 que se puede ejucutar una unica ves.
 
 //db.run('CREATE TABLE tasks(id int AUTO_INCREMENT, description varchar(255))'); ------> crear table de base de datos sqlite3 se ejucuta una unica ves.
 
 app.post('/pendientes', function (req, res) {
-    db.run(`INSERT INTO tasks(description) VALUES(?)` , req.body.description);
+    //db.run(`INSERT INTO tasks(description) VALUES(?)` , req.body.description);
     res.send('Insercion finalizada');
 });
 
 //db.close(); ------> cierra la base de datos sqlite3 se ejucuta una unica ves cuando se crea.
+app.set('view engine', 'pug');
+app.get('/tasks', tasks.home);
 
 app.listen(3000);
 
